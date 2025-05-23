@@ -1,0 +1,131 @@
+# Game-EX API Tests
+
+# Base URL
+@baseUrl = http://localhost:5000
+@refreshToken = 
+@accessToken = 
+# Auth API
+
+### Register new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login user
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Refresh token
+GET {{baseUrl}}/auth/token
+Content-Type: application/json
+Cookie: refresh_token={{refreshToken}}
+
+### Logout
+DELETE {{baseUrl}}/auth/logout
+Content-Type: application/json
+Cookie: refresh_token={{refreshToken}}
+
+# User API
+
+### Get my profile
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+
+### Update my profile
+PATCH {{baseUrl}}/users/me
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "username": "updateduser"
+}
+
+### Delete my account
+DELETE {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+
+# Game API
+
+### Get all games
+GET {{baseUrl}}/games
+
+### Search games
+GET {{baseUrl}}/games?search=RPG
+
+### Get game by ID
+GET {{baseUrl}}/games/1
+
+### Create new game (requires auth)
+POST {{baseUrl}}/games
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "nama_game": "Awesome Game",
+  "gambar": "game1.jpg",
+  "harga": 50000,
+  "tag": "Adventure,RPG",
+  "deskripsi": "An awesome adventure game"
+}
+
+### Update game
+PATCH {{baseUrl}}/games/1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "deskripsi": "Updated description"
+}
+
+### Update discount
+PATCH {{baseUrl}}/games/1/discount
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "discount": 20
+}
+
+### Delete game
+DELETE {{baseUrl}}/games/1
+Authorization: Bearer {{accessToken}}
+
+### Get sales history
+GET {{baseUrl}}/games/sales
+Authorization: Bearer {{accessToken}}
+
+# Transaction API
+
+### Buy a game
+POST {{baseUrl}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "id_game": 1,
+  "metode_pembayaran": "e-wallet"
+}
+
+### Get purchase history
+GET {{baseUrl}}/transactions/history
+Authorization: Bearer {{accessToken}}
+
+# Gallery API
+
+### Get my library
+GET {{baseUrl}}/gallery
+Authorization: Bearer {{accessToken}}
+
+### Remove game from library
+DELETE {{baseUrl}}/gallery/1
+Authorization: Bearer {{accessToken}}
